@@ -9,4 +9,11 @@ RUN apt install -y openssl
 RUN mkdir -p /etc/nginx/ssl
 RUN openssl req -nodes -x509 -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=PT/L=Porto/CN=achabrer.42.fr/UID=achabrer"
 
-COPY conf/nginx.conf 
+#Copy our nginx config
+COPY conf/nginx.conf /etc/nginx/nginx.conf
+
+#give access to root
+RUN chmod 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+
+CMD ["nginx", "-g", "daemon off;"]
