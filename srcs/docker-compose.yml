@@ -1,0 +1,47 @@
+networks:
+  inception:
+
+volumes:
+  mariadb:
+  wordpress:
+
+services:
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    build:
+      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/wordpress/.
+      dockerfile: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/wordpress/Dockerfile
+    env_file: .env
+    networks:
+      - inception
+    volumes:
+      - /Users/Axel/data_inception/wordpress:/var/www/html
+  
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    build: 
+      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/mariadb/.
+    env_file: .env
+    networks:
+      - inception
+    volumes:
+      - /Users/Axel/data_inception/mariadb:/var/lib/mysql
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    build:
+      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/nginx/.
+      dockerfile: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/nginx/Dockerfile
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    env_file: .env
+    restart: always
+
