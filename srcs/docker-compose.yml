@@ -36,11 +36,15 @@ services:
         DB_NAME: ${DB_NAME}
         DB_USER: ${DB_USER}
         DB_PWD: ${DB_PWD}
+        DB_PWD_ROOT: ${DB_PWD_ROOT}
       context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/mariadb/.
     networks:
       - inception
     volumes:
       - /Users/Axel/data_inception/mariadb:/var/lib/mysql
+    restart: unless-stopped
+    expose:
+      - "3306"
 
   nginx:
     container_name: nginx
