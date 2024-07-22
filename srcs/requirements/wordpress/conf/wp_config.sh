@@ -6,10 +6,9 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 #create directory for nginx
-mkdir /var/www && mkdir /var/www/html
-
+mkdir -p /var/www && mkdir -p /var/www/html
 #download latest wordpress
-wp core download --allow-root
+wp core download --path=/var/www/html --allow-root
 
 wp config create --allow-root \
 	--dbname=$DB_NAME \

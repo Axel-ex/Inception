@@ -6,33 +6,45 @@ volumes:
   wordpress:
 
 services:
-
   wordpress:
-    image: wordpress:latest
     container_name: wordpress
+    env_file: .env
     build:
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PWD: ${DB_PWD}
+        WP_URL: ${WP_URL}
+        WP_TITLE: ${WP_TITLE}
+        WP_ADMIN_USR: ${WP_ADMIN_USR}
+        WP_ADMIN_PWD: ${WP_ADMIN_PWD}
+        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
       context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/wordpress/.
       dockerfile: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/wordpress/Dockerfile
-    env_file: .env
     networks:
       - inception
+    depends_on:
+      - mariadb
     volumes:
       - /Users/Axel/data_inception/wordpress:/var/www/html
   
   mariadb:
-    image: mariadb:latest
     container_name: mariadb
-    build: 
-      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/mariadb/.
     env_file: .env
+    build: 
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PWD: ${DB_PWD}
+      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/mariadb/.
     networks:
       - inception
     volumes:
       - /Users/Axel/data_inception/mariadb:/var/lib/mysql
 
   nginx:
-    image: nginx:latest
     container_name: nginx
+    env_file: .env
     build:
       context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/nginx/.
       dockerfile: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/nginx/Dockerfile
@@ -42,6 +54,5 @@ services:
       - wordpress
     ports:
       - "443:443"
-    env_file: .env
     restart: always
 
