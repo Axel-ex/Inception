@@ -10,12 +10,6 @@ echo "Starting MySQL server..."
 mysqld_safe &
 sleep 5
 
-# Wait for the MySQL server to be ready
-until mysqladmin ping &>/dev/null; do
-	echo "Waiting for MySQL server to be ready..."
-	sleep 3
-done
-
 # Create a SQL script file and add SQL commands to it
 echo "Creating initial SQL script..."
 cat >/tmp/db.sql <<EOF

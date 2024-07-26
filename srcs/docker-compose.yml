@@ -2,8 +2,8 @@ networks:
   inception:
 
 volumes:
-  mariadb:
-  wordpress:
+  mariadb_volume:
+  wordpress_volume:
 
 services:
   wordpress:
@@ -19,14 +19,13 @@ services:
         WP_ADMIN_USR: ${WP_ADMIN_USR}
         WP_ADMIN_PWD: ${WP_ADMIN_PWD}
         WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/wordpress/.
-      dockerfile: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/wordpress/Dockerfile
+      context: ./requirements/wordpress/.
     networks:
       - inception
     depends_on:
       - mariadb
     volumes:
-      - /Users/Axel/data_inception/wordpress:/var/www/html
+      - wordpress_volume:/var/www/html
     expose:
       - "9000"
   
@@ -39,11 +38,11 @@ services:
         DB_USER: ${DB_USER}
         DB_PWD: ${DB_PWD}
         DB_PWD_ROOT: ${DB_PWD_ROOT}
-      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/mariadb/.
+      context: ./requirements/mariadb/.
     networks:
       - inception
     volumes:
-      - /Users/Axel/data_inception/mariadb:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     restart: unless-stopped
     expose:
       - "3306"
@@ -52,8 +51,7 @@ services:
     container_name: nginx
     env_file: .env
     build:
-      context: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/nginx/.
-      dockerfile: /Users/Axel/Desktop/Ecole_42/Inception/srcs/requirements/nginx/Dockerfile
+      context: ./requirements/nginx/.
     networks:
       - inception
     depends_on:

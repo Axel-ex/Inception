@@ -17,8 +17,7 @@ RUN apt install vim -y
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY tools/init_db.sh ./init_db.sh
 RUN chmod +x ./init_db.sh
-# RUN bash init_db.sh
-# RUN mysql_install_db
+RUN bash init_db.sh
 
-# CMD ["/usr/bin/mysqld_safe"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/usr/bin/mysqld_safe"]
+# CMD ["tail", "-f", "/dev/null"]
