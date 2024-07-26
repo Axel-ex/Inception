@@ -27,6 +27,8 @@ services:
       - mariadb
     volumes:
       - /Users/Axel/data_inception/wordpress:/var/www/html
+    expose:
+      - "9000"
   
   mariadb:
     container_name: mariadb
