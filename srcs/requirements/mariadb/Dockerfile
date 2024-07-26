@@ -19,5 +19,6 @@ COPY tools/init_db.sh ./init_db.sh
 RUN chmod +x ./init_db.sh
 RUN bash init_db.sh
 
+EXPOSE 3306
+
 CMD ["/usr/bin/mysqld_safe"]
-# CMD ["tail", "-f", "/dev/null"]
