@@ -24,18 +24,16 @@ RUN apt install -y vim
 RUN apt install -y php7.3 php-fpm php-mysql mariadb-client
 RUN apt install -y curl
 
-COPY conf/wp_config.sh ./wp_config.sh
+COPY tools/wp_config.sh ./wp_config.sh
 
 # Install wp-cli using curl
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp
 
-# RUN bash wp_config.sh
+RUN bash wp_config.sh
 
-#We expose the 9000 port
 EXPOSE 9000
 
-#Launch PHP FPM in foreground and ignore deamonize from conf file (-F)
-# CMD ["/usr/sbin/php-fpm7.3", "-F"]
-CMD [ "tail", "-f", "/dev/null" ]
+#Launch PHP FPM in foreground and ignore deamon
+CMD ["/usr/sbin/php-fpm7.3", "-F"]

@@ -9,6 +9,7 @@ RUN apt install -y openssl
 RUN mkdir -p /etc/nginx/ssl && mkdir -p /usr/share/nginx/logs/
 RUN openssl req -nodes -x509 -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=PT/L=Porto/CN=achabrer.42.fr/UID=achabrer"
 
+RUN mkdir -p /var/run/nginx
 #Copy our nginx config
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 

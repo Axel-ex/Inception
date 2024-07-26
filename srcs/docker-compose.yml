@@ -28,6 +28,7 @@ services:
       - wordpress_volume:/var/www/html
     expose:
       - "9000"
+    restart: always
   
   mariadb:
     container_name: mariadb
