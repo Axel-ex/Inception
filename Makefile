@@ -1,23 +1,34 @@
 PATH_TO_COMPOSE = ./srcs/docker-compose.yml
 PATH_TO_ENV_FILE = whatever
 PROJECT_NAME = inception
+DATA_DIR = /Users/Axel/data/
 
-all: run
+all: conf up
 
-run:
-	docker compose -p ${PROJECT_NAME} --file ${PATH_TO_COMPOSE} up -d
+conf:
+	@mkdir -p ${DATA_DIR}mariadb_volume/ ${DATA_DIR}wordpress_volume/
+	@sudo sed -i '' '/^127.0.0.1/ s/localhost/localhost achabrer.42.fr/' /etc/hosts
 
-force:
-	docker compose -p ${PROJECT_NAME} --file ${PATH_TO_COMPOSE} build --no-cache
+up:
+	docker compose -p ${PROJECT_NAME} --file ${PATH_TO_COMPOSE} up --build -d
 
-run:
+down:
+	docker compose -p ${PROJECT_NAME} down --volumes
+
+start:
+	docker compose -p ${PROJECT_NAME} start
 
 stop:
-	docker compose -p ${PROJECT_NAME} --file ${PATH_TO_COMPOSE} stop
+	docker compose -p ${PROJECT_NAME} stop
 
-clean:
-	docker compose -p ${PROJECT_NAME} --file ${PATH_TO_COMPOSE} down -v
+clean_images:
+	@echo "Removing images...\n"
+	docker rmi -f $(docker images -q) || True
 
-re: clean force all
+clean: down clean_images
 
+fclean: clean
+	@echo "Removing volumes...\n"
+	rm -rf ${DATA_DIR}
 
+re: fclean all

@@ -3,7 +3,17 @@ networks:
 
 volumes:
   mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/Axel/data/mariadb_volume
+      o: bind
   wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/Axel/data/wordpress_volume
+      o: bind
 
 services:
   wordpress:
@@ -58,4 +68,3 @@ services:
     ports:
       - "443:443"
     restart: always
-
