@@ -1,4 +1,0 @@
-NAME                IMAGE                 COMMAND                  SERVICE             CREATED             STATUS              PORTS
-mariadb             inception-mariadb     "/usr/bin/mysqld_safe"   mariadb             25 minutes ago      Up 25 minutes       3306/tcp
-nginx               inception-nginx       "nginx -g 'daemon of…"   nginx               25 minutes ago      Up 25 minutes       0.0.0.0:443->443/tcp, :::443->443/tcp
-wordpress           inception-wordpress   "tail -f /dev/null"      wordpress           25 minutes ago      Up 25 minutes       9000/tcp
