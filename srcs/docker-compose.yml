@@ -1,0 +1,70 @@
+networks:
+  inception:
+
+volumes:
+  mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/Axel/data/mariadb_volume
+      o: bind
+  wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/Axel/data/wordpress_volume
+      o: bind
+
+services:
+  wordpress:
+    container_name: wordpress
+    env_file: .env
+    build:
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PWD: ${DB_PWD}
+        WP_URL: ${WP_URL}
+        WP_TITLE: ${WP_TITLE}
+        WP_ADMIN_USR: ${WP_ADMIN_USR}
+        WP_ADMIN_PWD: ${WP_ADMIN_PWD}
+        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      context: ./requirements/wordpress/.
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_volume:/var/www/html
+    restart: always
+  
+  mariadb:
+    container_name: mariadb
+    env_file: .env
+    build: 
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PWD: ${DB_PWD}
+        DB_PWD_ROOT: ${DB_PWD_ROOT}
+      context: ./requirements/mariadb/.
+    networks:
+      - inception
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    restart: unless-stopped
+
+  nginx:
+    container_name: nginx
+    env_file: .env
+    build:
+      context: ./requirements/nginx/.
+    networks:
+      - inception
+    volumes:
+      - wordpress_volume:/var/www/html
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    restart: always
