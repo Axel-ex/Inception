@@ -6,29 +6,29 @@ DATA_DIR = /Users/Axel/data/
 all: conf up
 
 conf:
-	@mkdir -p ${DATA_DIR}mariadb_volume/ ${DATA_DIR}wordpress_volume/
-	@sudo sed -i '' '/^127.0.0.1/ s/localhost/localhost achabrer.42.fr/' /etc/hosts
+	@sudo mkdir -p ${DATA_DIR}mariadb_volume/ ${DATA_DIR}wordpress_volume/
+	@sudo sed -i '/^127.0.0.1/ s/localhost/localhost achabrer.42.fr/' /etc/hosts || true
 
 up:
-	docker compose -p ${PROJECT_NAME} --file ${PATH_TO_COMPOSE} up --build -d
+	sudo docker compose -p ${PROJECT_NAME} --file ${PATH_TO_COMPOSE} up --build -d
 
 down:
-	docker compose -p ${PROJECT_NAME} down --volumes
+	sudo docker compose -p ${PROJECT_NAME} down --volumes
 
 start:
-	docker compose -p ${PROJECT_NAME} start
+	sudo docker compose -p ${PROJECT_NAME} start
 
 stop:
-	docker compose -p ${PROJECT_NAME} stop
+	sudo docker compose -p ${PROJECT_NAME} stop
 
 clean_images:
 	@echo "Removing images...\n"
-	docker rmi -f $(docker images -q) || True
+	sudo docker rmi -f $(sudo docker images -q) || true
 
 clean: down clean_images
 
 fclean: clean
 	@echo "Removing volumes...\n"
-	rm -rf ${DATA_DIR}
+	sudo rm -rf ${DATA_DIR}
 
 re: fclean all
