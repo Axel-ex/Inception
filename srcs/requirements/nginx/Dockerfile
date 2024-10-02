@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 RUN apt upgrade && apt update
 RUN apt install -y nginx
@@ -12,6 +12,7 @@ RUN openssl req -nodes -x509 -out /etc/nginx/ssl/inception.crt -keyout /etc/ngin
 RUN mkdir -p /var/run/nginx
 #Copy our nginx config
 COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx/sites-available/default
 
 #give read write execute to root
 RUN chmod 755 /var/www/html

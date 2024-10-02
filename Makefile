@@ -1,7 +1,7 @@
 PATH_TO_COMPOSE = ./srcs/docker-compose.yml
 PATH_TO_ENV_FILE = whatever
 PROJECT_NAME = inception
-DATA_DIR = /Users/Axel/data/
+DATA_DIR = /home/achabrer/data/
 
 all: conf up
 
@@ -23,7 +23,8 @@ stop:
 
 clean_images:
 	@echo "Removing images...\n"
-	sudo docker rmi -f $(sudo docker images -q) || true
+	sudo docker rmi -f $$(sudo docker image ls -q) || true
+	sudo docker builder prune -f
 
 clean: down clean_images
 

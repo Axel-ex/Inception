@@ -6,18 +6,19 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/Axel/data/mariadb_volume
+      device: /home/achabrer/data/mariadb_volume
       o: bind
   wordpress_volume:
     driver: local
     driver_opts:
       type: none
-      device: /Users/Axel/data/wordpress_volume
+      device: /home/achabrer/data/wordpress_volume
       o: bind
 
 services:
   wordpress:
     container_name: wordpress
+    image: wordpress:latest
     env_file: .env
     build:
       args:
@@ -40,6 +41,7 @@ services:
   
   mariadb:
     container_name: mariadb
+    image: mariadb:latest
     env_file: .env
     build: 
       args:
@@ -56,6 +58,7 @@ services:
 
   nginx:
     container_name: nginx
+    image: nginx:latest
     env_file: .env
     build:
       context: ./requirements/nginx/.

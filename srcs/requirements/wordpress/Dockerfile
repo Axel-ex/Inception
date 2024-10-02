@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 ARG DB_NAME
 ARG DB_USER
@@ -21,7 +21,7 @@ ENV WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
 #Instal php, php  fastcgi process manager
 RUN apt update -y && apt upgrade -y
 RUN apt install -y vim
-RUN apt install -y php7.3 php-fpm php-mysql mariadb-client
+RUN apt install -y php7.4 php7.4-fpm php7.4-mysql mariadb-client
 RUN apt install -y wget
 
 COPY tools/wp_config.sh /usr/local/bin/wp_config.sh
@@ -30,4 +30,4 @@ RUN chmod +x /usr/local/bin/wp_config.sh
 EXPOSE 9000
 
 ENTRYPOINT ["/usr/local/bin/wp_config.sh"]
-CMD ["/usr/sbin/php-fpm7.3", "-F"]
+CMD ["/usr/sbin/php-fpm7.4", "-F"]
